@@ -8,9 +8,10 @@
 uint8_t *sha256(int8_t const *s, size_t len,
 		uint8_t digest[SHA256_DIGEST_LENGTH])
 {
-  digest = SHA256((const unsigned char *)s, len, digest);
-  	if (digest != NULL)
+  	if (digest != NULL){
+		digest = SHA256((const unsigned char *)s, len, digest);
 		return digest;
-  else
-    return NULL;
+	}
+  	else
+   		 return NULL;
 }
