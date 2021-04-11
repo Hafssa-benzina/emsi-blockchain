@@ -8,28 +8,32 @@
  */
 int ec_save(EC_KEY *key, char const *folder)
 {
-	char buf[BUFSIZ];
 	FILE *fp;
+	char path[128] = {0};
 
-	if (!key || !folder || strlen(folder) + strlen(PUB_FILENAME) > BUFSIZ)
+	if (!key || !folder)
 		return (0);
-	mkdir(folder, S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
-	sprintf(buf, "%s/%s", folder, PUB_FILENAME);
-	fp = fopen(buf, "w");
-	if (!fp)
-		return (0);
-	if (!PEM_write_EC_PUBKEY(fp, key))
-		goto out;
-	fclose(fp);
-	sprintf(buf, "%s/%s", folder, PRI_FILENAME);
-	fp = fopen(buf, "w");
+	mkdir(folder, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	sprintf(path, "%s/" PRV_FILE, folder);
+	fp = fopen(path, "w");
 	if (!fp)
 		return (0);
 	if (!PEM_write_ECPrivateKey(fp, key, NULL, NULL, 0, NULL, NULL))
-		goto out;
+	{
+		/*fclose(fp);*/
+		/*return (0);*/
+	}
+	fclose(fp);
+	sprintf(path, "%s/" PUB_FILE, folder);
+	fp = fopen(path, "w");
+	if (!fp)
+		return (0);
+	if (!PEM_write_EC_PUBKEY(fp, key))
+	{
+		fclose(fp);
+		return (0);
+	}
 	fclose(fp);
 	return (1);
-out:
-	fclose(fp);
-	return (0);
 }
