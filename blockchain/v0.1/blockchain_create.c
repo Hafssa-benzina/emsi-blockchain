@@ -6,7 +6,6 @@
 /**Create a blockchain
 *The Blockchain must contain one block upon creation. This block is called the Genesis Block. Its content is static*/
 blockchain_t *blockchain_create(void){
-/*creating a list of blocks*/
 	blockchain_t *list=calloc(1,sizeof(*list));
 	if(list==NULL)
 	  return (NULL);
