@@ -1,5 +1,4 @@
 #include "hblk_crypto.h"
-
 /**
  * sha256 - a function that computes the hash of a sequence of bytes
  * @s: the sequence of bytes to be hashed
