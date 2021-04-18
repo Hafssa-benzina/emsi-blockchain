@@ -1,5 +1,4 @@
 #include "blockchain.h"
-
 /**
  * block_create - create a Block structure and initializes it
  */
