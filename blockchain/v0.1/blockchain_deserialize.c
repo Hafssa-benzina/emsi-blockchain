@@ -63,3 +63,59 @@ blockchain_t *blockchain_deserialize(char const *path)
 	}
 	return (close(file), chain);
 }
+llist_t *deserialize_blocks(int file, uint32_t size, uint8_t endianness)
+{
+	block_t *block;
+	llist_t *list = llist_create(MT_SUPPORT_TRUE);
+	uint32_t i = 0;
+
+	if (!list)
+		return (NULL);
+	for (i = 0; i < size; i++)
+	{
+		block = calloc(1, sizeof(*block));
+		if (!block)
+		{
+			free(block);
+			llist_destroy(list, 1, NULL);
+			return (NULL);
+		}
+		if (read(file, &(block->info), sizeof(block->info)) != sizeof(block->info))
+		{
+			free(block);
+			llist_destroy(list, 1, NULL);
+			return (NULL);
+		}
+		CHECK_ENDIAN(block->info.index);
+		CHECK_ENDIAN(block->info.difficulty);
+		CHECK_ENDIAN(block->info.timestamp);
+		CHECK_ENDIAN(block->info.nonce);
+		if (read(file, &(block->data.len), 4) != 4)
+		{
+			free(block);
+			llist_destroy(list, 1, NULL);
+			return (NULL);
+		}
+		CHECK_ENDIAN(block->data.len);
+		if (read(file, block->data.buffer, block->data.len) != block->data.len)
+		{
+			free(block);
+			llist_destroy(list, 1, NULL);
+			return (NULL);
+		}
+		if (read(file, block->hash, SHA256_DIGEST_LENGTH) !=
+		    SHA256_DIGEST_LENGTH)
+		{
+			free(block);
+			llist_destroy(list, 1, NULL);
+			return (NULL);
+		}
+		if (llist_add_node(list, block, ADD_NODE_REAR))
+		{
+			free(block);
+			llist_destroy(list, 1, NULL);
+			return (NULL);
+		}
+	}
+	return (list);
+}
