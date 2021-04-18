@@ -1,3 +1,5 @@
+
+#include "blockchain.h"
 /**
 *path contains the path to a file to load the Blockchain from
 *the function must return a pointer to the deserialized Blockchain upon success, or NULL upon failure
