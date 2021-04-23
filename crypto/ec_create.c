@@ -2,11 +2,11 @@
 
 /**
  * A function that creates a new EC key pair
- *
  * Return: a pointer to creat an EC_KEY structure
  */
 EC_KEY *ec_create(void)
 {
+	/* EC_CURVE == secp256k1 */
 	EC_KEY *key;
 
 	key = EC_KEY_new_by_curve_name(EC_CURVE);
