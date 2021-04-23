@@ -1,5 +1,6 @@
 #ifndef _HBLK_CRYPTO_H_
 #define _HBLK_CRYPTO_H_
+
 #include <openssl/sha.h>
 #include <openssl/ec.h>
 #include <openssl/obj_mac.h>
@@ -14,20 +15,26 @@
 
 #define PUB_FILE "key_pub.pem"
 #define PRV_FILE "key.pem"
+
 #define EC_CURVE NID_secp256k1
 
 /* EC_KEY public key octet string length (using 256-bit curve) */
-/* Maximum signature octet string length (using 256-bit curve) */
 #define EC_PUB_LEN 65
+/* Maximum signature octet string length (using 256-bit curve) */
 #define SIG_MAX_LEN 72
 
 /**
  * EC Signature structure : struct sig_s 
- *len: Actual signature size. Can't exceed SIG_MAX_LEN
+  * len: Actual signature size. Can't exceed SIG_MAX_LEN,
  * sig: Signature buffer. The whole space may not be used
+ * therefore stored on a byte
  */
 typedef struct sig_s
 {
+      /**
+     * sig must stay first, so we can use the structure as
+     * an array of char
+     */
 	uint8_t sig[SIG_MAX_LEN];
 	uint8_t len;
 } sig_t;
@@ -44,4 +51,4 @@ uint8_t *ec_sign(EC_KEY const *key, uint8_t const *msg,
 uint ec_verify(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 	       sig_t const *sig);
 
-#endif
+#endif /* _HBLK_CRYPTO_H_ */
