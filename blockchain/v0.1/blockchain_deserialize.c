@@ -14,7 +14,7 @@ blockchain_t *blockchain_deserialize(char const *path)
 
 	if (!path)
 		return (NULL);
-	fd = open(path, O_RDONLY);
+	f = open(path, O_RDONLY);
 	if (f == -1)
 		return (NULL);
 	if (read(f, buf, strlen(HBLK_MAGIC)) != strlen(HBLK_MAGIC) ||
