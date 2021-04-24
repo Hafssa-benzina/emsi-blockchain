@@ -23,7 +23,7 @@ block_t *block_create(block_t const *prev, int8_t const *data,
 	blk->info.nonce = 0;
 	memcpy(blk->info.prev_hash, prev->hash, SHA256_DIGEST_LENGTH);
 	memcpy(blk->data.buffer, data, data_len);
-	b->data.len = data_len;
+	blk->data.len = data_len;
 	memset(blk->hash, 0, SHA256_DIGEST_LENGTH);
 	return (blk);
 }
