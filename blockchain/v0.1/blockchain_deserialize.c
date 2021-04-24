@@ -1,12 +1,10 @@
 
 #include "blockchain.h"
 /**
-*path contains the path to a file to load the Blockchain from
-*the function must return a pointer to the deserialized Blockchain upon success, or NULL upon failure
-*The format of the file to parse is described in the previous task
-*Upon any error, the function must fail and return NULL
-*/
-
+ * blockchain_deserialize - deserializes blockchain from file
+ * @path: path to serialized blockchain file
+ * Return: pointer to deserialized blockchain or null
+ */
 blockchain_t *blockchain_deserialize(char const *path)
 {
 	int file;
@@ -65,6 +63,14 @@ blockchain_t *blockchain_deserialize(char const *path)
 	}
 	return (close(file), chain);
 }
+
+/**
+ * deserialize_blocks - deserializes all the blocks in the file
+ * @fd: open fd to save file
+ * @size: number of blocks in the file
+ * @endianness: if endianess needs switching
+ * Return: pointer to list of blocks or NULL
+ */
 llist_t *deserialize_blocks(int file, uint32_t size, uint8_t endianness)
 {
 	block_t *block;
