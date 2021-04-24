@@ -1,5 +1,4 @@
 #include "blockchain.h"
-
 /**
  * blockchain_deserialize - deserializes blockchain from file
  * @path: path to serialized blockchain file
@@ -7,7 +6,7 @@
  */
 blockchain_t *blockchain_deserialize(char const *path)
 {
-	int f;
+	int fd;
 	blockchain_t *chain = NULL;
 	uint8_t endianness;
 	char buf[4096] = {0};
@@ -15,53 +14,53 @@ blockchain_t *blockchain_deserialize(char const *path)
 
 	if (!path)
 		return (NULL);
-	f = open(path, O_RDONLY);
-	if (f == -1)
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
 		return (NULL);
-	if (read(f, buf, strlen(HBLK_MAGIC)) != strlen(HBLK_MAGIC) ||
+	if (read(fd, buf, strlen(HBLK_MAGIC)) != strlen(HBLK_MAGIC) ||
 	    strcmp(buf, HBLK_MAGIC))
 	{
 		free(chain);
-		close(f);
+		close(fd);
 		return (NULL);
 	}
 	buf[strlen(HBLK_VERSION)] = 0;
-	if (read(f, buf, strlen(HBLK_VERSION)) != strlen(HBLK_VERSION) ||
+	if (read(fd, buf, strlen(HBLK_VERSION)) != strlen(HBLK_VERSION) ||
 	    strcmp(buf, HBLK_VERSION))
 	{
 		free(chain);
-		close(f);
+		close(fd);
 		return (NULL);
 	}
 	chain = calloc(1, sizeof(*chain));
 	if (!chain)
 	{
 		free(chain);
-		close(f);
+		close(fd);
 		return (NULL);
 	}
-	if (read(f, &endianness, 1) != 1)
+	if (read(fd, &endianness, 1) != 1)
 	{
 		free(chain);
-		close(f);
+		close(fd);
 		return (NULL);
 	}
 	endianness = endianness != _get_endianness();
-	if (read(f, &size, 4) != 4)
+	if (read(fd, &size, 4) != 4)
 	{
 		free(chain);
-		close(f);
+		close(fd);
 		return (NULL);
 	}
 	CHECK_ENDIAN(size);
-	chain->chain = deserialize_blocks(f, size, endianness);
+	chain->chain = deserialize_blocks(fd, size, endianness);
 	if (!chain)
 	{
 		free(chain);
-		close(f);
+		close(fd);
 		return (NULL);
 	}
-	return (close(f), chain);
+	return (close(fd), chain);
 }
 
 /**
