@@ -9,7 +9,7 @@
 */
 int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 {
-  int file, i, size;
+        int file, i, size;
 	uint8_t endianness = _get_endianness();
 	
 	if (!blockchain || !blockchain->chain || !path)
