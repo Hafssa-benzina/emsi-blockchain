@@ -20,7 +20,7 @@ int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 		return (-1);
 	if (write(f, HBLK_MAGIC, strlen(HBLK_MAGIC)) != strlen(HBLK_MAGIC))
 		goto end;
-	if (write(fd, HBLK_VERSION, strlen(HBLK_VERSION)) != strlen(HBLK_VERSION))
+	if (write(f, HBLK_VERSION, strlen(HBLK_VERSION)) != strlen(HBLK_VERSION))
 		goto end;
 	if (write(f, &endianness, 1) != 1)
 		goto end;
