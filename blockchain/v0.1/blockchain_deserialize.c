@@ -6,7 +6,7 @@
  */
 blockchain_t *blockchain_deserialize(char const *path)
 {
-	int file;
+	int f;
 	blockchain_t *chain = NULL;
 	uint8_t endianness;
 	char buf[4096] = {0};
@@ -14,53 +14,53 @@ blockchain_t *blockchain_deserialize(char const *path)
 
 	if (!path)
 		return (NULL);
-	file = open(path, O_RDONLY);
-	if (file == -1)
+	fd = open(path, O_RDONLY);
+	if (f == -1)
 		return (NULL);
-	if (read(file, buf, strlen(HBLK_MAGIC)) != strlen(HBLK_MAGIC) ||
+	if (read(f, buf, strlen(HBLK_MAGIC)) != strlen(HBLK_MAGIC) ||
 	    strcmp(buf, HBLK_MAGIC))
 	{
 		free(chain);
-		close(file);
+		close(f);
 		return (NULL);
 	}
 	buf[strlen(HBLK_VERSION)] = 0;
-	if (read(file, buf, strlen(HBLK_VERSION)) != strlen(HBLK_VERSION) ||
+	if (read(f, buf, strlen(HBLK_VERSION)) != strlen(HBLK_VERSION) ||
 	    strcmp(buf, HBLK_VERSION))
 	{
 		free(chain);
-		close(file);
+		close(f);
 		return (NULL);
 	}
 	chain = calloc(1, sizeof(*chain));
 	if (!chain)
 	{
 		free(chain);
-		close(file);
+		close(f);
 		return (NULL);
 	}
-	if (read(file, &endianness, 1) != 1)
+	if (read(f, &endianness, 1) != 1)
 	{
 		free(chain);
-		close(file);
+		close(f);
 		return (NULL);
 	}
 	endianness = endianness != _get_endianness();
-	if (read(file, &size, 4) != 4)
+	if (read(f, &size, 4) != 4)
 	{
 		free(chain);
-		close(file);
+		close(f);
 		return (NULL);
 	}
 	CHECK_ENDIAN(size);
-	chain->chain = deserialize_blocks(file, size, endianness);
+	chain->chain = deserialize_blocks(f, size, endianness);
 	if (!chain)
 	{
 		free(chain);
-		close(file);
+		close(f);
 		return (NULL);
 	}
-	return (close(file), chain);
+	return (close(f), chain);
 }
 
 /**
@@ -70,7 +70,7 @@ blockchain_t *blockchain_deserialize(char const *path)
  * @endianness: if endianess needs switching
  * Return: pointer to list of blocks or NULL
  */
-llist_t *deserialize_blocks(int file, uint32_t size, uint8_t endianness)
+llist_t *deserialize_blocks(int fd, uint32_t size, uint8_t endianness)
 {
 	block_t *block;
 	llist_t *list = llist_create(MT_SUPPORT_TRUE);
@@ -87,7 +87,7 @@ llist_t *deserialize_blocks(int file, uint32_t size, uint8_t endianness)
 			llist_destroy(list, 1, NULL);
 			return (NULL);
 		}
-		if (read(file, &(block->info), sizeof(block->info)) != sizeof(block->info))
+		if (read(fd, &(block->info), sizeof(block->info)) != sizeof(block->info))
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
@@ -97,20 +97,20 @@ llist_t *deserialize_blocks(int file, uint32_t size, uint8_t endianness)
 		CHECK_ENDIAN(block->info.difficulty);
 		CHECK_ENDIAN(block->info.timestamp);
 		CHECK_ENDIAN(block->info.nonce);
-		if (read(file, &(block->data.len), 4) != 4)
+		if (read(fd, &(block->data.len), 4) != 4)
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
 			return (NULL);
 		}
 		CHECK_ENDIAN(block->data.len);
-		if (read(file, block->data.buffer, block->data.len) != block->data.len)
+		if (read(fd, block->data.buffer, block->data.len) != block->data.len)
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
 			return (NULL);
 		}
-		if (read(file, block->hash, SHA256_DIGEST_LENGTH) !=
+		if (read(fd, block->hash, SHA256_DIGEST_LENGTH) !=
 		    SHA256_DIGEST_LENGTH)
 		{
 			free(block);
