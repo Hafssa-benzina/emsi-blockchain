@@ -13,7 +13,7 @@
 blockchain_t *blockchain_create(void)
 {
 	/*
-	function 
+	function
 	*/
 	blockchain_t *list;
 	block_t *genesis;
