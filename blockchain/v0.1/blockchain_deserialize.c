@@ -1,4 +1,3 @@
-
 #include "blockchain.h"
 /**
  * blockchain_deserialize - deserializes blockchain from file
