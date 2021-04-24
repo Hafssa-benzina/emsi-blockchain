@@ -12,9 +12,6 @@
 */
 blockchain_t *blockchain_create(void)
 {
-	/*
-	function
-	*/
 	blockchain_t *list;
 	block_t *genesis;
 
