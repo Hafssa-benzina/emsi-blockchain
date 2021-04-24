@@ -1,9 +1,10 @@
 #include "blockchain.h"
 /**
-*blockchain points to the Blockchain to be serialized,
-*path contains the path to a file to serialize the Blockchain into
-*If path points to an existing file, it must be overwritten
-*the function must return 0 upon success, or -1 upon failure
+ * blockchain_serialize - a function that serializes a Blockchain into a file
+ * @blockchain: pointer to blockchain to be serialized
+ * @path: the path to a file to serialize the Blockchain into
+ *
+ * Return: 0 upon success, or -1 upon failure
 */
 int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 {
