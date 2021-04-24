@@ -36,7 +36,8 @@ int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 			goto end;
 		if (write(file, block->data.buffer, block->data.len) != block->data.len)
 			goto end;
-		if (write(file, block->hash, SHA256_DIGEST_LENGTH) != SHA256_DIGEST_LENGTH)
+		if (write(file, block->hash, SHA256_DIGEST_LENGTH) !=
+		    SHA256_DIGEST_LENGTH)
 			goto end;
 	}
 	return (close(file), 0);
