@@ -8,7 +8,7 @@
 *blockchain_create - Create a blockchain
 *The Blockchain must contain one block upon creation.
 *This block is called the genesis Block. Its content is static
-*return: blockchain struct
+*Return: blockchain struct
 */
 blockchain_t *blockchain_create(void)
 {
