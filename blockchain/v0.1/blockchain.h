@@ -88,11 +88,11 @@ typedef struct block_s
 } block_t;
 
 blockchain_t *blockchain_create(void);
-block_t *block_create(block_t const *prev, 
-		      int8_t const *data, uint32_t data_len);
+block_t *block_create(block_t const *prev,
+		     int8_t const *data, uint32_t data_len);
 void block_destroy(block_t *block);
 void blockchain_destroy(blockchain_t *blockchain);
-uint8_t *block_hash(block_t const *block, 
+uint8_t *block_hash(block_t const *block,
 		    uint8_t hash_buf[SHA256_DIGEST_LENGTH]);
 int blockchain_serialize(blockchain_t const *blockchain, char const *path);
 blockchain_t *blockchain_deserialize(char const *path);
