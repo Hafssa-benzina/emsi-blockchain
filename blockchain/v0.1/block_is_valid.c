@@ -26,8 +26,8 @@ int block_is_valid(block_t const *block, block_t const *prev_block)
 {
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH] = {0};
 	block_t const _genesis = GENESIS_BLOCK;
-	
-	if (!block || (block->info.index != 0 && !prev_block))
+
+	if (!block || (!prev_block && block->info.index != 0))
 		return (1);
 	if (block->info.index == 0)
 		return (memcmp(block, &_genesis, sizeof(_genesis)));
