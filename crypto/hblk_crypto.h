@@ -24,15 +24,16 @@
 #define SIG_MAX_LEN 72
 
 /**
- * EC Signature structure : struct sig_s 
-  * len: Actual signature size. Can't exceed SIG_MAX_LEN,
- * sig: Signature buffer. The whole space may not be used
+ * struct sig_s - EC Signature structure
+ *
+ * @sig: Signature buffer. The whole space may not be used
+ * @len: Actual signature size. Can't exceed SIG_MAX_LEN,
  * therefore stored on a byte
  */
 typedef struct sig_s
 {
-      /**
-     * sig must stay first, so we can use the structure as
+	/*
+     * @sig must stay first, so we can directly use the structure as
      * an array of char
      */
 	uint8_t sig[SIG_MAX_LEN];
