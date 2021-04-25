@@ -1,4 +1,5 @@
 #include "blockchain.h"
+
 #define GENESIS_BLOCK { \
 	{ /* info */ \
 		0 /* index */, \
@@ -14,15 +15,18 @@
 	"\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d\x8e\xdf\x2a\x97\xd4\x8d" \
 	"\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51\x58\x03" \
 }
+
 /**
-*block points to the Block to check
-*prev_block points to the previous Block in the Blockchain,
-*or is NULL if block is the first Block of the chain
-*/
+ * block_is_valid - checks if this and previous block are valid
+ * @block: pointer
+ * @prev_block: pointer to previous block
+ * Return: 0 if valid else 1 if invalid
+ */
 int block_is_valid(block_t const *block, block_t const *prev_block)
 {
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH] = {0};
 	block_t const _genesis = GENESIS_BLOCK;
+	
 	if (!block || (block->info.index != 0 && !prev_block))
 		return (1);
 	if (block->info.index == 0)
