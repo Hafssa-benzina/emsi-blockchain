@@ -70,7 +70,8 @@ blockchain_t *blockchain_deserialize(char const *path)
  * @endianness: if endianess needs switching
  * Return: pointer to list of blocks or NULL
  */
-llist_t *deserialize_blocks(int fd, uint32_t size, uint8_t endianness)
+llist_t *deserialize_blocks(int fd, uint32_t size,
+			    uint8_t endianness)
 {
 	block_t *block;
 	llist_t *list = llist_create(MT_SUPPORT_TRUE);
@@ -87,7 +88,8 @@ llist_t *deserialize_blocks(int fd, uint32_t size, uint8_t endianness)
 			llist_destroy(list, 1, NULL);
 			return (NULL);
 		}
-		if (read(fd, &(block->info), sizeof(block->info)) != sizeof(block->info))
+		if (read(fd, &(block->info), sizeof(block->info)) !=
+		    sizeof(block->info))
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
@@ -104,13 +106,15 @@ llist_t *deserialize_blocks(int fd, uint32_t size, uint8_t endianness)
 			return (NULL);
 		}
 		CHECK_ENDIAN(block->data.len);
-		if (read(fd, block->data.buffer, block->data.len) != block->data.len)
+		if (read(fd, block->data.buffer, block->data.len) !=
+		    block->data.len)
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
 			return (NULL);
 		}
-		if (read(fd, block->hash, SHA256_DIGEST_LENGTH) != SHA256_DIGEST_LENGTH)
+		if (read(fd, block->hash, SHA256_DIGEST_LENGTH) !=
+		    SHA256_DIGEST_LENGTH)
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
