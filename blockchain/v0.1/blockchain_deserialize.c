@@ -110,8 +110,7 @@ llist_t *deserialize_blocks(int fd, uint32_t size, uint8_t endianness)
 			llist_destroy(list, 1, NULL);
 			return (NULL);
 		}
-		if (read(fd, block->hash, SHA256_DIGEST_LENGTH) !=
-		    SHA256_DIGEST_LENGTH)
+		if (read(fd, block->hash, SHA256_DIGEST_LENGTH) != SHA256_DIGEST_LENGTH)
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
