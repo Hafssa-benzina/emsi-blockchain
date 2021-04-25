@@ -87,7 +87,7 @@ llist_t *deserialize_blocks(int fd, uint32_t size, uint8_t endianness)
 			llist_destroy(list, 1, NULL);
 			return (NULL);
 		}
-		if (read(fd, &(block->info), sizeof(block->info)) != sizeof(block->info))
+		if (read(f, &(block->info), sizeof(block->info)) != sizeof(block->info))
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
@@ -104,13 +104,13 @@ llist_t *deserialize_blocks(int fd, uint32_t size, uint8_t endianness)
 			return (NULL);
 		}
 		CHECK_ENDIAN(block->data.len);
-		if (read(fd, block->data.buffer, block->data.len) != block->data.len)
+		if (read(f, block->data.buffer, block->data.len) != block->data.len)
 		{
 			free(block);
 			llist_destroy(list, 1, NULL);
 			return (NULL);
 		}
-		if (read(fd, block->hash, SHA256_DIGEST_LENGTH) !=
+		if (read(f, block->hash, SHA256_DIGEST_LENGTH) !=
 		    SHA256_DIGEST_LENGTH)
 		{
 			free(block);
