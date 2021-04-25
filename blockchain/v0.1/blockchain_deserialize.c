@@ -70,7 +70,7 @@ blockchain_t *blockchain_deserialize(char const *path)
  * @endianness: if endianess needs switching
  * Return: pointer to list of blocks or NULL
  */
-llist_t *deserialize_blocks(int fd, uint32_t size, uint8_t endianness)
+llist_t *deserialize_blocks(int f, uint32_t size, uint8_t endianness)
 {
 	block_t *block;
 	llist_t *list = llist_create(MT_SUPPORT_TRUE);
