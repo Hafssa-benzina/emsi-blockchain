@@ -1,15 +1,16 @@
 #include "hblk_crypto.h"
 
 /**
- * A function that loads an EC key pair from the disk
+ * ec_load - a function that loads an EC key pair from the disk
  * @folder: the path to the folder from which to load the keys
- * Return a pointer to the created EC key pair, or NULL 
+ *
+ * Return: a pointer to the created EC key pair, or NULL upon failure
  */
 EC_KEY *ec_load(char const *folder)
 {
-  char path[128] = {0};
-	EC_KEY *key = NULL;
 	FILE *fp;
+	char path[128] = {0};
+	EC_KEY *key = NULL;
 
 	if (!folder)
 		return (0);
