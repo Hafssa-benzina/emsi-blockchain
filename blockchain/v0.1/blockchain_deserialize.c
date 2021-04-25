@@ -1,4 +1,5 @@
 #include "blockchain.h"
+
 /**
  * blockchain_deserialize - deserializes blockchain from file
  * @path: path to serialized blockchain file
@@ -65,7 +66,7 @@ blockchain_t *blockchain_deserialize(char const *path)
 
 /**
  * deserialize_blocks - deserializes all the blocks in the file
- * @fd: open fd to save file
+ * @f: open f to save file
  * @size: number of blocks in the file
  * @endianness: if endianess needs switching
  * Return: pointer to list of blocks or NULL
