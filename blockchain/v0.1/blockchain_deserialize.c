@@ -17,7 +17,8 @@ blockchain_t *blockchain_deserialize(char const *path)
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	if (read(fd, buf, strlen(HBLK_MAGIC)) != strlen(HBLK_MAGIC) ||
+	if (read(fd, buf, strlen(HBLK_MAGIC)) !=
+	    strlen(HBLK_MAGIC) ||
 	    strcmp(buf, HBLK_MAGIC))
 	{
 		free(chain);
@@ -25,7 +26,8 @@ blockchain_t *blockchain_deserialize(char const *path)
 		return (NULL);
 	}
 	buf[strlen(HBLK_VERSION)] = 0;
-	if (read(fd, buf, strlen(HBLK_VERSION)) != strlen(HBLK_VERSION) ||
+	if (read(fd, buf, strlen(HBLK_VERSION)) !=
+	    strlen(HBLK_VERSION) ||
 	    strcmp(buf, HBLK_VERSION))
 	{
 		free(chain);
