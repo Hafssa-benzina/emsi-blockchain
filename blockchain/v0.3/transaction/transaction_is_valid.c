@@ -4,6 +4,7 @@
  * match_unspent - finds unspent to match txi
  * @node: utxo
  * @arg: txi struct
+ *
  * Return: 0 if continue else 1
  */
 int match_unspent(llist_node_t node, void *arg)
@@ -21,6 +22,7 @@ int match_unspent(llist_node_t node, void *arg)
  * @node: txi
  * @idx: index of node
  * @arg: visitor
+ *
  * Return: 0 if continue else 1
  */
 int check_inputs(llist_node_t node, unsigned int idx, void *arg)
@@ -56,6 +58,7 @@ int check_inputs(llist_node_t node, unsigned int idx, void *arg)
  * @node: tx_out_t *
  * @idx: index of node
  * @arg: visitor
+ *
  * Return: 0 if continue else 1
  */
 int check_outputs(llist_node_t node, unsigned int idx, void *arg)
@@ -72,6 +75,7 @@ int check_outputs(llist_node_t node, unsigned int idx, void *arg)
  * transaction_is_valid - validates tx
  * @transaction: the tx to validate
  * @all_unspent: all unspent txo's
+ *
  * Return: 1 if valid else 0
  */
 int transaction_is_valid(transaction_t const *transaction,
