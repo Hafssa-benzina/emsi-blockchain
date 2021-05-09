@@ -9,7 +9,7 @@
  * Return: pointer to resulting sig struct or null
  */
 sig_t *tx_in_sign(tx_in_t *in, uint8_t const tx_id[SHA256_DIGEST_LENGTH],
-EC_KEY const *sender, llist_t *all_unspent)
+	EC_KEY const *sender, llist_t *all_unspent)
 {
 	uint8_t pub[EC_PUB_LEN];
 	ssize_t i;
